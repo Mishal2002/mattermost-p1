@@ -2007,8 +2007,83 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'CustomBrandImage',
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
+                        },
+                        {
+                            type: 'custom',
+                            component: CustomThemesSetting,
+                            key: 'ThemeSettings.CustomThemes',
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+
+                            // TODO: Add translations here for support search in the admin console
+                            // TODO: Ensure disabled field is correctly set here
+                            type: 'custom',
+                            component: AllowedThemesSetting,
+                            key: 'ThemeSettings.AllowedThemes',
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+                            type: 'bool',
+                            key: 'ThemeSettings.EnableThemeSelection',
+                            label: defineMessage({id: 'admin.experimental.enableThemeSelection.title', defaultMessage: 'Enable Theme Selection (Enterprise):'}),
+                            help_text: defineMessage({id: 'admin.experimental.enableThemeSelection.desc', defaultMessage: 'Enables the **Display > Theme** tab in Settings so users can select their theme.'}),
+                            help_text_markdown: true,
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+                            type: 'bool',
+                            key: 'ThemeSettings.AllowCustomThemes',
+                            label: defineMessage({id: 'admin.experimental.allowCustomThemes.title', defaultMessage: 'Allow Custom Themes (Enterprise):'}),
+                            help_text: defineMessage({id: 'admin.experimental.allowCustomThemes.desc', defaultMessage: 'Enables the **Display > Theme > Custom Theme** section in Settings.'}),
+                            help_text_markdown: true,
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
+                                it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+
+                            // TODO: Add translations here for support search in the admin console
+                            // TODO: Ensure disabled field is correctly set here
+                            type: 'custom',
+                            key: 'ThemeSettings.DefaultTheme',
+                            component: DefaultThemeSetting,
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensed),
+                                it.licensedForSku('starter'),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+                            type: 'longtext',
+                            key: 'TeamSettings.CustomBrandText',
+                            label: defineMessage({id: 'admin.team.brandTextTitle', defaultMessage: 'Custom Brand Text:'}),
+                            help_text: defineMessage({id: 'admin.team.brandTextDescription', defaultMessage: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.'}),
+                            max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
                         },
                         {
                             type: 'color',
@@ -2024,72 +2099,6 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
-                        },
-                        {
-                            type: 'custom',
-                            component: CustomThemesSetting,
-                            key: 'ThemeSettings.CustomThemes',
-                            isDisabled: it.any(
-                                it.not(
-                                    it.any(
-                                        it.licensedForSku(LicenseSkus.Enterprise),
-                                        it.licensedForSku(LicenseSkus.Professional),
-                                    ),
-                                ),
-                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
-                            ),
-                        },
-                        {
-
-                            // TODO: Add translations here for support search in the admin console
-                            // TODO: Ensure disabled field is correctly set here
-                            type: 'custom',
-                            component: AllowedThemesSetting,
-                            key: 'ThemeSettings.AllowedThemes',
-                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
-                        },
-                        {
-                            type: 'bool',
-                            key: 'ThemeSettings.EnableThemeSelection',
-                            label: defineMessage({id: 'admin.experimental.enableThemeSelection.title', defaultMessage: 'Enable Theme Selection:'}),
-                            help_text: defineMessage({id: 'admin.experimental.enableThemeSelection.desc', defaultMessage: 'Enables the **Display > Theme** tab in Settings so users can select their theme.'}),
-                            help_text_markdown: true,
-                            isHidden: it.any(
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
-                            ),
-                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        },
-                        {
-                            type: 'bool',
-                            key: 'ThemeSettings.AllowCustomThemes',
-                            label: defineMessage({id: 'admin.experimental.allowCustomThemes.title', defaultMessage: 'Allow Custom Themes:'}),
-                            help_text: defineMessage({id: 'admin.experimental.allowCustomThemes.desc', defaultMessage: 'Enables the **Display > Theme > Custom Theme** section in Settings.'}),
-                            help_text_markdown: true,
-                            isHidden: it.any(
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
-                            ),
-                            isDisabled: it.any(
-                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                                it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
-                            ),
-                        },
-                        {
-
-                            // TODO: Add translations here for support search in the admin console
-                            // TODO: Ensure disabled field is correctly set here
-                            type: 'custom',
-                            key: 'ThemeSettings.DefaultTheme',
-                            component: DefaultThemeSetting,
-                        },
-                        {
-                            type: 'longtext',
-                            key: 'TeamSettings.CustomBrandText',
-                            label: defineMessage({id: 'admin.team.brandTextTitle', defaultMessage: 'Custom Brand Text:'}),
-                            help_text: defineMessage({id: 'admin.team.brandTextDescription', defaultMessage: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.'}),
-                            max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
                         },
                         {
                             type: 'color',
