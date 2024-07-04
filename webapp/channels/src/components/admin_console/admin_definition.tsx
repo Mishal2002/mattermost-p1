@@ -1953,45 +1953,6 @@ const AdminDefinition: AdminDefinitionType = {
                             ),
                         },
                         {
-                            type: 'text',
-                            key: 'TeamSettings.CustomBrandHeading',
-                            label: defineMessage({id: 'admin.team.brandHeadingTitle', defaultMessage: 'Login page heading (Enterprise):'}),
-                            help_text: defineMessage({id: 'admin.team.brandHeadingDescription', defaultMessage: 'When left empty, the login page heading will be "Log in to your account"'}),
-                            isDisabled: it.any(
-                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
-                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
-                            ),
-                        },
-                        {
-                            type: 'longtext',
-                            key: 'TeamSettings.CustomBrandText',
-                            label: defineMessage({id: 'admin.team.brandTextTitle', defaultMessage: 'Login page subheading:'}),
-                            help_text: defineMessage({id: 'admin.team.brandTextDescription', defaultMessage: 'When left empty, the subheading will be "Collaborate with your team in real-time"'}),
-                            max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
-                            isDisabled: it.any(
-                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
-                            ),
-                        },
-                        {
-                            type: 'text',
-                            key: 'TeamSettings.CustomDescriptionText',
-                            label: defineMessage({id: 'admin.team.brandDescriptionTitle', defaultMessage: 'Login form title: '}),
-                            help_text: defineMessage({id: 'admin.team.brandDescriptionHelp', defaultMessage: 'Displays as a title above the login form. If left blank, "Log in" is displayed.'}),
-                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                        },
-                        {
-                            type: 'custom',
-                            component: BrandImageSetting,
-                            key: 'CustomBrandImage',
-                            isDisabled: it.any(
-                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
-                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
-                            ),
-                        },
-                        {
                             type: 'custom',
                             component: CustomThemesSetting,
                             key: 'ThemeSettings.CustomThemes',
@@ -2053,11 +2014,43 @@ const AdminDefinition: AdminDefinitionType = {
                             ),
                         },
                         {
+                            type: 'text',
+                            key: 'TeamSettings.CustomBrandHeading',
+                            label: defineMessage({id: 'admin.team.brandHeadingTitle', defaultMessage: 'Login page heading (Enterprise):'}),
+                            help_text: defineMessage({id: 'admin.team.brandHeadingDescription', defaultMessage: 'When left empty, the login page heading will be "Log in to your account"'}),
+                            isDisabled: it.any(
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
                             type: 'longtext',
                             key: 'TeamSettings.CustomBrandText',
-                            label: defineMessage({id: 'admin.team.brandTextTitle', defaultMessage: 'Custom Brand Text:'}),
-                            help_text: defineMessage({id: 'admin.team.brandTextDescription', defaultMessage: 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.'}),
+                            label: defineMessage({id: 'admin.team.brandTextTitle', defaultMessage: 'Login page subheading:'}),
+                            help_text: defineMessage({id: 'admin.team.brandTextDescription', defaultMessage: 'When left empty, the subheading will be "Collaborate with your team in real-time"'}),
                             max_length: Constants.MAX_CUSTOM_BRAND_TEXT_LENGTH,
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
+                        },
+                        {
+                            type: 'text',
+                            key: 'TeamSettings.CustomDescriptionText',
+                            label: defineMessage({id: 'admin.team.brandDescriptionTitle', defaultMessage: 'Login form title: '}),
+                            help_text: defineMessage({id: 'admin.team.brandDescriptionHelp', defaultMessage: 'Displays as a title above the login form. If left blank, "Log in" is displayed.'}),
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                        },
+                        {
+                            type: 'custom',
+                            component: BrandImageSetting,
+                            key: 'CustomBrandImage',
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
+                                it.stateIsFalse('TeamSettings.EnableCustomBrand'),
+                            ),
                         },
                         {
                             type: 'color',
