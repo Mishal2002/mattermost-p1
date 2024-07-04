@@ -1987,8 +1987,7 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'CustomBrandImage',
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
                         },
@@ -1998,8 +1997,7 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'ThemeSettings.CustomThemes',
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
                         },
@@ -2012,8 +2010,7 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'ThemeSettings.AllowedThemes',
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
                         },
@@ -2025,8 +2022,7 @@ const AdminDefinition: AdminDefinitionType = {
                             help_text_markdown: true,
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
                         },
@@ -2038,8 +2034,7 @@ const AdminDefinition: AdminDefinitionType = {
                             help_text_markdown: true,
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('ThemeSettings.EnableThemeSelection'),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
@@ -2053,8 +2048,7 @@ const AdminDefinition: AdminDefinitionType = {
                             component: DefaultThemeSetting,
                             isDisabled: it.any(
                                 it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
-                                it.not(it.licensed),
-                                it.licensedForSku('starter'),
+                                it.not(it.licensedForSku(LicenseSkus.Enterprise)),
                                 it.stateIsFalse('TeamSettings.EnableCustomBrand'),
                             ),
                         },
