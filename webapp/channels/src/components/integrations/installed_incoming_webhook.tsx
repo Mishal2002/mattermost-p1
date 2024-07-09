@@ -26,7 +26,10 @@ export function matchesFilter(incomingWebhook: IncomingWebhook, channel: Channel
     }
 
     if (incomingWebhook.channel_id) {
-        if (channel && channel.name.toLowerCase().indexOf(filter) !== -1) {
+        if (channel &&
+            (channel.name.toLowerCase().indexOf(filter) !== -1 ||
+                channel.display_name.toLowerCase().indexOf(filter) !== -1)
+        ) {
             return true;
         }
     }
@@ -91,8 +94,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
         let displayName;
         if (incomingWebhook.display_name) {
             displayName = incomingWebhook.display_name;
-        } else if (channel) {
-            displayName = channel.display_name;
         } else {
             displayName = (
                 <FormattedMessage
@@ -101,6 +102,8 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                 />
             );
         }
+
+        const channelDisplayName = channel.display_name ?? 'N/A';
 
         let description = null;
         if (incomingWebhook.description) {
@@ -161,6 +164,22 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                             <span>
                                 <CopyText
                                     value={incomingWebhookId}
+                                />
+                            </span>
+                        </span>
+                    </div>
+                    <div className='item-details__row'>
+                        <span className='item-details__channel_name word-break--all'>
+                            <FormattedMessage
+                                id='installed_integrations.channel_name'
+                                defaultMessage='Channel: {name}'
+                                values={{
+                                    name: channelDisplayName,
+                                }}
+                            />
+                            <span>
+                                <CopyText
+                                    value={channelDisplayName}
                                 />
                             </span>
                         </span>
