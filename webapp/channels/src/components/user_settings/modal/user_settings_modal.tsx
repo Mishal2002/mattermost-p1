@@ -4,9 +4,10 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import type {IntlShape} from 'react-intl';
 
+import type {PreferencesType} from '@mattermost/types/preferences';
 import type {UserProfile} from '@mattermost/types/users';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
@@ -18,14 +19,21 @@ import UserSettings from 'components/user_settings';
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/keyboard';
 import {stopTryNotificationRing} from 'utils/notification_sounds';
+import {getDisplayName} from 'utils/utils';
 
 import type {PluginConfiguration} from 'types/plugins/user_settings';
 
-export type Props = {
-    currentUser: UserProfile;
+export type OwnProps = {
+    userID?: string;
+    adminMode?: boolean;
+    currentUser?: UserProfile;
+    isContentProductSettings: boolean;
+    userPreferences?: PreferencesType;
+}
+
+export type Props = OwnProps & {
     onExited: () => void;
     intl: IntlShape;
-    isContentProductSettings: boolean;
     actions: {
         sendVerificationEmail: (email: string) => Promise<ActionResult>;
     };
@@ -279,13 +287,24 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             return (<div/>);
         }
 
-        const modalTitle = this.props.isContentProductSettings ? formatMessage({
-            id: 'global_header.productSettings',
-            defaultMessage: 'Settings',
-        }) : formatMessage({
-            id: 'user.settings.modal.title',
-            defaultMessage: 'Profile',
-        });
+        let modalTitle: string;
+
+        if (this.props.adminMode) {
+            modalTitle = formatMessage({
+                id: 'userSettings.adminMode.modal_header',
+                defaultMessage: "{userDisplayName}'s Settings",
+            }, {
+                userDisplayName: getDisplayName(this.props.currentUser),
+            });
+        } else {
+            modalTitle = this.props.isContentProductSettings ? formatMessage({
+                id: 'global_header.productSettings',
+                defaultMessage: 'Settings',
+            }) : formatMessage({
+                id: 'user.settings.modal.title',
+                defaultMessage: 'Profile',
+            });
+        }
 
         return (
             <Modal
@@ -308,6 +327,16 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                     >
                         {modalTitle}
                     </Modal.Title>
+
+                    {
+                        this.props.adminMode &&
+                        <div className='adminModeBadge'>
+                            <FormattedMessage
+                                id='userSettings.adminMode.admin_mode_badge'
+                                defaultMessage='Admin Mode'
+                            />
+                        </div>
+                    }
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
@@ -336,6 +365,8 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                                 }
                                 pluginSettings={this.props.pluginSettings}
                                 user={this.props.currentUser}
+                                adminMode={this.props.adminMode}
+                                userPreferences={this.props.userPreferences}
                             />
                         </div>
                     </div>

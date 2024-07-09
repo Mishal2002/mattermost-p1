@@ -7,7 +7,7 @@ import React from 'react';
 import type {ReactNode} from 'react';
 import {FormattedMessage, defineMessages} from 'react-intl';
 
-import type {PreferenceType} from '@mattermost/types/preferences';
+import type {PreferencesType, PreferenceType} from '@mattermost/types/preferences';
 import type {UserProfile} from '@mattermost/types/users';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
@@ -40,8 +40,13 @@ type Settings = {
     sync_drafts: Props['syncDrafts'];
 };
 
-export type Props = {
+export type OwnProps = {
+    adminMode?: boolean;
     currentUser: UserProfile;
+    userPreferences?: PreferencesType;
+}
+
+export type Props = OwnProps & {
     advancedSettingsCategory: PreferenceType[];
     sendOnCtrlEnter: string;
     codeBlockOnCtrlEnter: string;
@@ -161,6 +166,10 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
     };
 
     handleSubmit = async (settings: string[]): Promise<void> => {
+        if (!this.props.currentUser) {
+            return;
+        }
+
         const preferences: PreferenceType[] = [];
         const {actions, currentUser} = this.props;
         const userId = currentUser.id;
@@ -928,6 +937,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         areAllSectionsInactive={this.props.activeSection === ''}
                         onUpdateSection={this.handleUpdateSection}
                         renderOnOffLabel={this.renderOnOffLabel}
+                        adminMode={this.props.adminMode}
+                        userPreferences={this.props.userPreferences}
+                        currentUserId={this.props.currentUser.id}
                     />
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
